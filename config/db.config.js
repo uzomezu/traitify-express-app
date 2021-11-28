@@ -1,9 +1,12 @@
 module.exports = {
+    SCHEMA: "postgres",
     HOST: "localhost",
-    USER: "pgAdmin",
+    USER: "postgres",
+    PORT: 5432,
     PASS: "",
-    DB: "test_123",
+    DB: "testDB",
     dialect: "postgres",
+    DB_SSL: true,
     pool: {
         max:5,
         min:0,

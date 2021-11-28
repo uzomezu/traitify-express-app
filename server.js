@@ -5,9 +5,9 @@ const path = require('path');
 const db = require('./models/index');
 require('dotenv').config();
 
-const port = process.env.PORT || '';
+const port = process.env.PORT || "";
 
-// app.use(cors());
+app.use(cors());
 app.use('/', express.static(path.join(__dirname, 'client')));
 
 db.sequelize.sync({force: true}).then(()=>{

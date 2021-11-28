@@ -1,9 +1,17 @@
 const dbConfig = require('../config/db.config');
 
+
 const Sequalize = require('sequelize');
-const sequelize = new Sequalize(dbConfig.DB, dbConfig.USER, dbConfig.PASS, {
+const sequelize = new Sequalize(
+    dbConfig.SCHEMA, 
+    dbConfig.USER, 
+    dbConfig.PASS, {
     host: dbConfig.HOST,
+    port: dbConfig.PORT,
     dialect: dbConfig.dialect,
+    dialectOptions: {
+      ssl : dbConfig.DB_SSL == 'true'  
+    },
     operaterAliases: false,
     pool: {
         max: dbConfig.pool.max,
