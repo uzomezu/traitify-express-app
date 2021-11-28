@@ -7,7 +7,7 @@ router.get('/', userController.getAllUsers)
 router.get('/:id/my-tests', userController.getUserTests);
 
 router.post('/login', async(req,res)=>{
-
+    
 });
 
 router.post('/register', userController.register);

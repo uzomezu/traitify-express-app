@@ -1,6 +1,8 @@
 const User = require('../models/user.model');
 const Assessment = require('../models/assessment.model');
+const AuthToken = require('../models/authtoken.model');
 const crypto = require('crypto');
+const { Buffer } = require('buffer')
 const { where } = require('sequelize/dist');
 
 function generateSalt(length){
@@ -52,5 +54,21 @@ exports.getUserTests = async (req,res) => {
 }
 
 exports.login = async (req,res) => {
+    if(!req.body.password || !req.body.identifier) {
+        res.status(400).send({message: "Error: Must have an identifier (email or username) and password"})
+    }
+    const isAuthenticated = await User.authenitcate(req.body.identifier, req.body.password);
 
+    if(isAuthenticated !== true) {
+        // send error message
+        res.status(403).send(isAuthenticated)
+    } else {
+        const authObject = await AuthToken.generate(isAuthenticated, 400000);
+        if (authObject) {
+            res.status(200).send({message: "User logged in", data: authObject})
+        } else {
+            res.status(500).send({message: "Error: internal server error"})
+        }
+    }
+   
 }

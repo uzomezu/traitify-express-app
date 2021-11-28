@@ -17,8 +17,9 @@ app.use('/', express.static(path.join(__dirname, 'client')));
 // assessments table
 db.assessments = require('./models/assessment.model');
 
-//users table
+//users table and authtokens table
 db.users = require('./models/user.model');
+db.authtokens = require('./models/authtoken.model');
 
 
 // ... Routes 
