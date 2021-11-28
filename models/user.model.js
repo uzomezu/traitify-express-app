@@ -32,22 +32,21 @@ Assessment.belongsTo(User);
 // Authentication
 
 User.authenitcate = async function(identifier, password){
-    var user;
+    
     const checkEmail = await User.findOne({where: {
         email: identifier
     }});
     const checkUsername = await User.findOne({where: {
         username: identifier
     }});
-    if(checkEmail == null && checkUsername == null) {
-        return {message: "Error: identifier or password is incorrect."}
-    } else if (checkEmail instanceof User || checkUsername instanceof User) {
-        user = checkEmail instanceof User ? checkEmail : checkUsername;
-
+    console.log((checkEmail!== null || checkUsername !== null));
+    if (checkEmail !== null || checkUsername !== null) {
+        const user = checkEmail !== null ? checkEmail : checkUsername;
+        console.log(user)
         const dbPassword = user.password;
 
         const isPasswordCorrect = await bcrypt.compare(password, dbPassword);
-
+        console.log(isPasswordCorrect)
         if (isPasswordCorrect){
             // password is correct, username or email is correct
             // time to tell controller to generate token

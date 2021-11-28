@@ -1,28 +1,19 @@
 const User = require('../models/user.model');
 const Assessment = require('../models/assessment.model');
 const AuthToken = require('../models/authtoken.model');
-const crypto = require('crypto');
-const { Buffer } = require('buffer')
+const bcrypt = require('bcryptjs')
 const { where } = require('sequelize/dist');
 
-function generateSalt(length){
-    return crypto.randomBytes(Math.ceil(length/2)).toString('hex').slice(0,length)
-}
-function hashPassword(password, salt) {
-    let hash = crypto.createHmac('sha512', salt);
-    hash.update(password);
-    let hashedPass = hash.digest('hex');
-    return hashedPass;
-}
+
 exports.register = (req,res) => {
     if (req.body.username && req.body.email && req.body.password) {
-        const salt = generateSalt(128);
-        const scrambledPass = hashPassword(req.body.password, salt);
-
+        const salt = bcrypt.genSaltSync(10);
+        const hash = bcrypt.hashSync(req.body.password, salt)
+        console.log(hash)
         const newUser = {
             email : req.body.email,
             username: req.body.username,
-            password: scrambledPass
+            password: hash
         }
         User.create(newUser)
             .then(data=>{
@@ -39,6 +30,11 @@ exports.register = (req,res) => {
 exports.getAllUsers = async (req,res) =>{
     const allUsers = await User.findAll()
     res.status(200).send(allUsers);
+}
+exports.getMe = async (req,res) => {
+    if (req.user) {
+        return res.status(200).send(req.user)
+    }
 }
 exports.getUserTests = async (req,res) => {
     // const user = await User.findByPk(req.params.id);
@@ -59,7 +55,7 @@ exports.login = async (req,res) => {
     }
     const isAuthenticated = await User.authenitcate(req.body.identifier, req.body.password);
 
-    if(isAuthenticated !== true) {
+    if(isAuthenticated.message) {
         // send error message
         res.status(403).send(isAuthenticated)
     } else {
@@ -71,4 +67,32 @@ exports.login = async (req,res) => {
         }
     }
    
+}
+
+exports.logout = async (req,res) =>{
+    try {
+        if(req.user) {
+            const dbToken = await AuthToken.findOne({where : {
+                userId: req.user.id,
+                loggedOut: false,
+            }});
+
+            const loggedOutToken = await AuthToken.update({
+                loggedOut: true,
+                timeOfLogout : new Date()
+            },{
+                where: {
+                    token: dbToken.token,
+                    id: dbToken.id
+                }
+            });
+            if (loggedOutToken) {
+                res.status(204).send()
+            }
+
+
+        }
+    } catch (err) {
+        res.status(500).send({message: err.message})
+    }
 }

@@ -1,4 +1,3 @@
-const { reset } = require('nodemon');
 const db = require('./index');
 const User = require('./user.model');
 
@@ -7,6 +6,18 @@ const AuthToken = db.sequelize.define('authtoken', {
         type: db.Sequelize.STRING,
         allowNull: false,
         unique: true,
+    },
+    loggedOut: {
+        type: db.Sequelize.BOOLEAN,
+        allowNull: false, 
+        defaultValue: false
+    },
+    timeOfLogin : {
+        type: db.Sequelize.DATE,
+        allowNull: false
+    },
+    timeOfLogout : {
+        type: db.Sequelize.DATE,
     }
 });
 
@@ -22,7 +33,8 @@ AuthToken.generate = async (user, exp) => {
     // .. create token in db
     const savedToken = await AuthToken.create({
         token: token,
-        userId: user.id
+        userId: user.id,
+        timeOfLogin: new Date()
     }); 
 
     const currentUser = await User.findByPk(user.id)
@@ -32,27 +44,32 @@ AuthToken.generate = async (user, exp) => {
     };
 }
 AuthToken.isAuth = async (req,res,next) => {
-    const arrAuthHeader = req.headers.authorization.split(" ");;
-    const token = arrAuthHeader[1];
+    try {
+        const arrAuthHeader = req.headers.authorization.split(" ");
+        const token = arrAuthHeader[1];
 
-    // ... Check #1 : Is the token inside the DB?
-    const dbToken = await AuthToken.findOne({where: {token: token}});
+        // ... Check #1 : Is the token inside the DB?
+        const dbToken = await AuthToken.findOne({where: {token: token}});
 
-    if (dbToken !== null) {
-        const tokenDecode = JSON.parse(Buffer.from(token, 'base64').toString('ascii'));
+        if (dbToken !== null) {
+            const tokenDecode = JSON.parse(Buffer.from(token, 'base64').toString('ascii'));
 
-        const rightNow = new Date();
-        // ... Check #2 : Has the token expired?
-        if (rightNow > tokenDecode.exp) {
-            res.status(403).send({message: "Error: Token has expired, please return to login page and log in again"})
+            const rightNow = new Date();
+            // ... Check #2 : Has the token expired?
+            if (rightNow > tokenDecode.exp || dbToken.loggedOut == true) {
+                await AuthToken.update({timeOfLogout : new Date(), loggedOut : true}, {where: { token: token}})
+                res.status(403).send({message: "Error: Token has expired, please return to login page and log in again"})
+            } else if(dbToken.loggedOut !== true) {
+                // ... Set the current user as req.user
+                req.user = await User.findByPk(tokenDecode.id);
+                next();
+            }
+
         } else {
-            // ... Set the current user as req.user
-            req.user = await User.findByPk(tokenDecode.id);
-            next();
+            res.status(403).send({message: "Error: Unauthorize access"})
         }
-
-    } else {
-        res.status(403).send({message: "Error: Unauthorize access"})
+    } catch(err) {
+        res.status(500).send({message: err.message})
     }
 }
 AuthToken.isAdmin = async (req,res,next) => {
