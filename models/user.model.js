@@ -1,5 +1,5 @@
 const db = require('./index');
-const Assessment = require('./assessment.model')(db.sequelize, db.Sequelize);
+const Assessment = require('./assessment.model');
 
 
 
@@ -15,10 +15,13 @@ const User = db.sequelize.define('user', {
         password : {
             type: db.Sequelize.STRING,
             allowNull: false
-        }
+        },
     });
     
 // creastes one to many relation of assessment id's
-User.hasMany(Assessment);
+User.hasMany(Assessment, {
+    foreignKey : "assessmentId"
+})
+Assessment.belongsTo(User);
 
 module.exports = User;

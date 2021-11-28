@@ -1,9 +1,17 @@
-module.exports = (sequelize, Sequelize) => {
-    const Assessment = sequelize.define("assessment", {
+const db = require('./index');
+const User = require('./user.model')
+const Assessment = db.sequelize.define("assessment", {
         uuid: {
-            type: Sequelize.STRING,
-            allowNull: false
+            type: db.Sequelize.STRING,
+            allowNull: false,
+            unique: true
+        },
+        isComplete: {
+            type: db.Sequelize.BOOLEAN,
+            allowNull : false,
+            defaultValue : false
         }
-    });
-    return Assessment
-}
+});
+
+
+module.exports = Assessment;
