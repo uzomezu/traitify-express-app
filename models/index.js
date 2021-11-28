@@ -2,6 +2,7 @@ const dbConfig = require('../config/db.config');
 
 
 const Sequalize = require('sequelize');
+
 const sequelize = new Sequalize(
     dbConfig.SCHEMA, 
     dbConfig.USER, 
@@ -25,6 +26,5 @@ const db = {};
 
 db.Sequalize = Sequalize;
 db.sequelize = sequelize;
-
 
 module.exports = db;

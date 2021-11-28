@@ -3,14 +3,6 @@ module.exports = (sequelize, Sequelize) => {
         uuid: {
             type: Sequelize.STRING,
             allowNull: false
-        },
-        status: {
-            type: Sequelize.STRING,
-            allowNull: false
-        },
-        score: {
-            type: Sequelize.STRING,
-            allowNull: true
         }
     });
     return Assessment

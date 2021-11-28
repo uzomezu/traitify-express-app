@@ -1,18 +1,24 @@
-module.exports = (sequelize, Sequelize) => {
-    const User = sequelize.define('user', {
+const db = require('./index');
+const Assessment = require('./assessment.model')(db.sequelize, db.Sequalize);
+
+
+
+const User = db.sequelize.define('user', {
         email: {
-            type: Sequelize.STRING,
+            type: db.Sequelize.STRING,
             allowNull: false
         },
         username: {
-            type: Sequelize.STRING,
+            type: db.Sequelize.STRING,
             allowNull: false
         },
         password : {
-            type: Sequelize.STRING,
+            type: db.Sequelize.STRING,
             allowNull: false
         }
     });
+    
+// creastes one to many relation of assessment id's
+User.hasMany(Assessment);
 
-    return User;
-}
+module.exports = User;
