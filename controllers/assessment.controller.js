@@ -1,5 +1,5 @@
 const db = require('../models/index');
-const Assessment = db.assessments;
+const Assessment = require('../models/assessment.model')(db.sequelize, db.Sequelize);
 
 
 exports.logAssesment = async (req,res) => {

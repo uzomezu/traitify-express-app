@@ -1,5 +1,5 @@
 import config from '../config.js';
-export async function getStatus() {
+export async function getStatus(assessment_id) {
     const options = {
         method : "GET",
         headers : {
@@ -7,7 +7,7 @@ export async function getStatus() {
             "Authorization" : `Basic ${config.secret_key + ":" + "x"}`
         }
     } 
-    const res = await fetch(`${config.host_url}/v1/assessments/${config.assessment_id}`, options);
+    const res = await fetch(`${config.host_url}/v1/assessments/${assessment_id}`, options);
     const data = await res.json();
 
     console.log(data.status)

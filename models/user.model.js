@@ -1,5 +1,5 @@
 const db = require('./index');
-const Assessment = require('./assessment.model')(db.sequelize, db.Sequalize);
+const Assessment = require('./assessment.model')(db.sequelize, db.Sequelize);
 
 
 
