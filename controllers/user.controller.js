@@ -32,8 +32,12 @@ exports.getAllUsers = async (req,res) =>{
     res.status(200).send(allUsers);
 }
 exports.getMe = async (req,res) => {
-    if (req.user) {
-        return res.status(200).send(req.user)
+    try {
+        if (req.user) {
+            return res.status(200).send(req.user)
+        }
+    } catch (err) {
+        res.status(500).send({message: err.message})
     }
 }
 exports.getUserTests = async (req,res) => {
