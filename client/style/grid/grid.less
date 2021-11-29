@@ -1,0 +1,23 @@
+.container {
+    display: grid;
+    grid-template-areas: 
+    'header'
+    'content'
+    'footer'
+    ;
+    grid-template-columns: 1fr;
+    grid-template-rows: 5rem 1fr 8rem;
+    height: 100%;
+    .header {
+        grid-area: header;
+        border: solid 2px red;
+    }
+    .content {
+        grid-area: content;
+        border: solid 2px black;
+    }
+    .footer {
+        grid-area: footer;
+        border: solid 2px green;
+    }
+}

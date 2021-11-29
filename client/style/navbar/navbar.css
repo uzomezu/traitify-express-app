@@ -1,0 +1,68 @@
+.nav {
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  justify-content: space-between;
+  align-items: center;
+}
+.nav #trigram {
+  display: none;
+  /* Bottom Bar */
+  /* Top Bar */
+}
+.nav #trigram .menu-btn-burger {
+  z-index: 1;
+  width: 50px;
+  height: 6px;
+  position: absolute;
+  background: black;
+  /* border-radius: 5px; */
+  transition: all 0.5s;
+  box-shadow: 0 2px 5px rgba(255, 101, 80, 0.5);
+}
+.nav #trigram .menu-btn-burger::before,
+.nav #trigram .menu-btn-burger::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  width: 50px;
+  height: 6px;
+  background: black;
+  /* border-radius: 5px; */
+  transition: all 0.5s ease-in-out;
+  box-shadow: 0 2px 5px rgba(255, 101, 80, 0.5);
+}
+.nav #trigram .menu-btn-burger::before {
+  transform: translateY(-10px);
+}
+.nav #trigram .menu-btn-burger::after {
+  transform: translateY(10px);
+}
+.nav div {
+  display: flex;
+  flex-direction: row;
+}
+.nav div a {
+  display: block;
+  padding: 14px 16px;
+  text-align: center;
+}
+@media only screen and (max-width: 768px) {
+  .nav #trigram {
+    position: relative;
+    display: flex;
+    width: 4rem;
+    height: 4rem;
+    cursor: pointer;
+    transition: all 0.5s;
+    opacity: 0;
+    z-index: 2;
+    justify-content: center;
+    align-items: center;
+  }
+  .nav #trigram:checked > i {
+    color: red;
+  }
+}

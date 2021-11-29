@@ -1,0 +1,16 @@
+@import url('grid/grid.css');
+@import url('navbar/navbar.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;
+}
+body {
+  height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+a {
+  text-decoration: none;
+}
