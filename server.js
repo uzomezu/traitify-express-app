@@ -7,7 +7,7 @@ const userRoutes = require('./routes/user.routes');
 const assessmentRoutes = require('./routes/assessment.routes');
 require('dotenv').config();
 
-const port = process.env.PORT || "";
+const port = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json())
@@ -29,8 +29,10 @@ app.use('/api/assessments', assessmentRoutes) // ... Assessments
 
 //
 
-db.sequelize.sync({force: true}).then(()=>{
-    console.log("dropping and re-syncing db...")
+db.sequelize.sync({force: process.env.NODE_ENV == 'dev'}).then(()=>{
+    if (process.env.NODE_ENV == "dev") {
+        console.log("dropping and re-syncing db...");
+    }
     app.listen(port, ()=>{
         console.log("Server is running on port: ", port);
     })

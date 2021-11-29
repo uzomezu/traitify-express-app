@@ -11,14 +11,14 @@ const NavBar = (props) => {
     return(
         <div className="nav">
         <div>
-            <a href="/">Home</a>
-            <a href="/profile.html">Profile</a>
+            <a href="/"><i class="fas fa-home"></i></a>   
         </div>
 
         <div id="login_register">
            {localStorage.authtoken ? 
            <>
-          <a href="" onClick={handleLogout}>Logout</a> 
+            <a href="/profile.html">Profile</a> 
+            <a href="" onClick={handleLogout}>Logout</a> 
            </> : 
            <>
            <a href="/login.html">Login</a>
