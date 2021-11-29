@@ -9,18 +9,8 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <div class="nav">
-                <div>
-                    <a href="/">Home</a>
-                    <a href="/profile.html">Profile</a>
-                </div>
-
-                <div id="login_register">
-                    <a href="/login.html">Login</a>
-                    <a href="/register.html">Register</a>
-                </div>
-            </div>
+        <div class="header" id="navbar">
+            <!-- React NavBar -->
         </div>
         <div class="content">
             <!-- React App -->
@@ -31,5 +21,11 @@
 
         </div>
     </div>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.traitify.com/js/v2/traitify.js"></script>
+    <script type="text/babel" data-type="module" src="./src/navbar.js"></script>
+    <script type="text/babel" data-type="module" src="./src/register.js"></script>
 </body>
 </html>

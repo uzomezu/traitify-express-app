@@ -59,7 +59,7 @@ exports.login = async (req,res) => {
         // send error message
         res.status(403).send(isAuthenticated)
     } else {
-        const authObject = await AuthToken.generate(isAuthenticated, 400000);
+        const authObject = await AuthToken.generate(isAuthenticated, 3600000);
         if (authObject) {
             res.status(200).send({message: "User logged in", data: authObject})
         } else {
