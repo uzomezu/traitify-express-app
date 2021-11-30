@@ -36,7 +36,7 @@ function Login(props){
         <div className="register-login-form">
             <form onSubmit={handleSubmit}>
             <h1>Login</h1>
-            <p>Please Enter identifier (emailusername) and password</p>
+            <p>Please Enter identifier (email or username) and password</p>
             <hr/>
             <InputControl onChange={(e)=>{setIdentifier(e.target.value)}} type="text" placeholder="Email or Password" name="identifier" id="identifiier" label="Email or Password" required={true}/>
             <InputControl onChange={(e)=>{setPassword(e.target.value)}} type="password" placeholder="Password" name="password" id="password" label="Password" required={true}/>

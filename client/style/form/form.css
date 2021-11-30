@@ -16,6 +16,8 @@
   margin: 5px 0 22px 0;
   display: inline-block;
   border: none;
+  border-radius: 0.4rem;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   background: #f1f1f1;
 }
 .register-login-form input[type=text]:focus,
@@ -30,6 +32,7 @@
   padding: 16px 20px;
   margin: 8px 0;
   border: none;
+  border-radius: 0.4rem;
   cursor: pointer;
   width: 100%;
   opacity: 0.9;

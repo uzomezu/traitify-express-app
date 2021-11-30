@@ -3,22 +3,31 @@ import { getMyProfile, getAllAssessments } from "../modules/assessment.controlle
 const {useState, useEffect} = React;
 
 const Profile = (props) => {
+
+    console.log(props.userData);
     return(
         <>
-        <h1>Profile Page</h1>
+        <div>
+            <h1>Welcome Back, {props.userData.username}!</h1>
+        </div>
         </>
     );
 }
 
 class App extends React.Component{
     constructor(props){
-        super(props)
+        super(props);
+        this.state = {
+            me: {}
+        }
     }
 
     async componentDidMount() {
         if(localStorage.authtoken) {
             const myProfile = await getMyProfile();
-
+            this.setState({
+                me: myProfile
+            })
             const userId = myProfile.id;
 
             const assessments = await getAllAssessments(userId);
@@ -32,7 +41,7 @@ class App extends React.Component{
 
     render(){
         return(
-            <Profile/>
+            <Profile userData={this.state.me}/>
         );
     }
 }

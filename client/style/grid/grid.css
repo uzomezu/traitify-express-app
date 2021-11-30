@@ -7,13 +7,10 @@
 }
 .container .header {
   grid-area: header;
-  border: solid 2px red;
 }
 .container .content {
   grid-area: content;
-  border: solid 2px black;
 }
 .container .footer {
   grid-area: footer;
-  border: solid 2px green;
 }
