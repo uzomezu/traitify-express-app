@@ -42,6 +42,23 @@ export const getMyProfile = async () => {
         window.location.replace(`${window.origin}/login.html`);
     }
 }
+export const getMyTests = async (userId) => {
+    const urlLocalAPI = `${window.origin}/api/users/${userId}/my-tests`;
+    const localAuth = `Bearer ${localStorage.authtoken}`;
+
+    const localOptions = {
+        method: "GET",
+        headers: {
+            "Content-Type" : "application/json",
+            "Authorization" : localAuth
+        }
+    }
+
+    const myTestsRes = await fetch(urlLocalAPI, localOptions);
+    const myTestsData = await myTestsRes.json();
+
+    return myTestsData;
+}
 export const getAllAssessments = async (userId) => {
     
     if (localStorage.authtoken) {
